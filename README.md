@@ -1,21 +1,22 @@
-# Go to Next Error
+# Next Error
 
-This extension adds the following commands to VSCode.
+Makes error navigation seamless. It's a fork of [yy0931/go-to-next-error](https://github.com/yy0931/go-to-next-error) that fixes few issues and strives for active maintenance.
+It adds the following commands to VSCode.
 
-- `Go to Next Problem (Error)`
-- `Go to Previous Problem (Error)`
-- `Go to Next Problem in Files (Error)`
-- `Go to Previous Problem in Files (Error)`
-- `Go to Next Problem (Error, Warning)`
-- `Go to Previous Problem (Error, Warning)`
-- `Go to Next Problem in Files (Error, Warning)`
-- `Go to Previous Problem in Files (Error, Warning)`
+-   `Next Problem (Error)`
+-   `Go to Previous Problem (Error)`
+-   `Next Problem in Files (Error)`
+-   `Go to Previous Problem in Files (Error)`
+-   `Next Problem (Error, Warning)`
+-   `Go to Previous Problem (Error, Warning)`
+-   `Next Problem in Files (Error, Warning)`
+-   `Go to Previous Problem in Files (Error, Warning)`
 
-These commands are like the VSCode's built-in `Go to Previous/Next Problem (Error, Warning, Info)` and `Go to Next Problem in Files (Error, Warning, Info)`, but they select only markers of the specified severity.
+These commands are like the VSCode's built-in `Go to Previous/Next Problem (Error, Warning, Info)` and `Next Problem in Files (Error, Warning, Info)`, but they select only markers of the specified severity.
 
 ---
 
-To change the behavior of the F8 key from the default `Go to Next Problem in Files (Error, Warning, Info)` to `Go to Next Problem in Files (Error, Warning)`, add the following code to the `keybinding.json` (press `F1` or `Shift+Ctrl(Cmd)+P` then `Preferences: Open Keyboard Shortcuts (JSON)`).
+To change the behavior of the F8 key from the default `Next Problem in Files (Error, Warning, Info)` to `Next Problem in Files (Error, Warning)`, add the following code to the `keybinding.json` (press `F1` or `Shift+Ctrl(Cmd)+P` then `Preferences: Open Keyboard Shortcuts (JSON)`).
 
 ```json
 {
@@ -25,14 +26,16 @@ To change the behavior of the F8 key from the default `Go to Next Problem in Fil
 },
 {
     "key": "f8",
-    "command": "go-to-next-error.nextInFiles.warning",
+    "command": "next-error.nextInFiles.warning",
     "when": "editorFocus"
 }
 ```
 
 ## Related GitHub Issue
+
 https://github.com/microsoft/vscode/issues/105795.
 
 ## Known problems
-- If there are multiple errors in the exact same location, only the first one will be displayed.
-- Due to the limitations of the VSCode API, we use hovers for the `(Error, Warning)` commands. This behavior can be modified using the `go-to-next-error.multiSeverityHandlingMethod` configuration.
+
+-   If there are multiple errors in the exact same location, only the first one will be displayed.
+-   Due to the limitations of the VSCode API, we use hovers for the `(Error, Warning)` commands. This behavior can be modified using the `next-error.multiSeverityHandlingMethod` configuration.

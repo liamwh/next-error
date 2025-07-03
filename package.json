@@ -1,106 +1,99 @@
 {
-	"name": "go-to-next-error",
-	"displayName": "Go to Next Error",
-	"description": "Resolves https://github.com/microsoft/vscode/issues/105795",
-	"version": "1.0.7",
-	"publisher": "yy0931",
-	"icon": "icon.gif",
-	"engines": {
-		"vscode": "^1.57.0"
-	},
-	"extensionKind": [
-		"ui",
-		"workspace"
-	],
-	"categories": [
-		"Other"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/yy0931/go-to-next-error"
-	},
-	"bugs": {
-		"url": "https://github.com/yy0931/go-to-next-error/issues"
-	},
-	"activationEvents": [
-		"onCommand:go-to-next-error.nextInFiles.error",
-		"onCommand:go-to-next-error.prevInFiles.error",
-		"onCommand:go-to-next-error.next.error",
-		"onCommand:go-to-next-error.prev.error",
-		"onCommand:go-to-next-error.nextInFiles.warning",
-		"onCommand:go-to-next-error.prevInFiles.warning",
-		"onCommand:go-to-next-error.next.warning",
-		"onCommand:go-to-next-error.prev.warning"
-	],
-	"keywords": [
-		"error",
-		"warning",
-		"problem",
-		"marker"
-	],
-	"main": "./out/extension.js",
-	"browser": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "go-to-next-error.next.error",
-				"title": "Go to Next Problem (Error)"
-			},
-			{
-				"command": "go-to-next-error.prev.error",
-				"title": "Go to Previous Problem (Error)"
-			},
-			{
-				"command": "go-to-next-error.nextInFiles.error",
-				"title": "Go to Next Problem in Files (Error)"
-			},
-			{
-				"command": "go-to-next-error.prevInFiles.error",
-				"title": "Go to Previous Problem in Files (Error)"
-			},
-			{
-				"command": "go-to-next-error.next.warning",
-				"title": "Go to Next Problem (Error, Warning)"
-			},
-			{
-				"command": "go-to-next-error.prev.warning",
-				"title": "Go to Previous Problem (Error, Warning)"
-			},
-			{
-				"command": "go-to-next-error.nextInFiles.warning",
-				"title": "Go to Next Problem in Files (Error, Warning)"
-			},
-			{
-				"command": "go-to-next-error.prevInFiles.warning",
-				"title": "Go to Previous Problem in Files (Error, Warning)"
-			}
-		],
+    "name": "next-error",
+    "displayName": "Next Error",
+    "description": "Seamless error navigation",
+    "version": "0.1.0",
+    "publisher": "daelmaak",
+    "icon": "icon.gif",
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "extensionKind": [
+        "ui",
+        "workspace"
+    ],
+    "categories": [
+        "Other"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daelmaak/next-error"
+    },
+    "bugs": {
+        "url": "https://github.com/daelmaak/next-error/issues"
+    },
+    "keywords": [
+        "error",
+        "warning",
+        "problem",
+        "marker"
+    ],
+    "main": "./out/extension.js",
+    "browser": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "next-error.next.error",
+                "title": "Next Problem (Error)"
+            },
+            {
+                "command": "next-error.prev.error",
+                "title": "Go to Previous Problem (Error)"
+            },
+            {
+                "command": "next-error.nextInFiles.error",
+                "title": "Next Problem in Files (Error)"
+            },
+            {
+                "command": "next-error.prevInFiles.error",
+                "title": "Go to Previous Problem in Files (Error)"
+            },
+            {
+                "command": "next-error.next.warning",
+                "title": "Next Problem (Error, Warning)"
+            },
+            {
+                "command": "next-error.prev.warning",
+                "title": "Go to Previous Problem (Error, Warning)"
+            },
+            {
+                "command": "next-error.nextInFiles.warning",
+                "title": "Next Problem in Files (Error, Warning)"
+            },
+            {
+                "command": "next-error.prevInFiles.warning",
+                "title": "Go to Previous Problem in Files (Error, Warning)"
+            }
+        ],
         "configuration": {
-            "title": "Go to Next Error",
+            "title": "Next Error",
             "properties": {
-                "go-to-next-error.multiSeverityHandlingMethod": {
+                "next-error.multiSeverityHandlingMethod": {
                     "type": "string",
-                    "enum": ["marker", "hover"],
+                    "enum": [
+                        "marker",
+                        "hover"
+                    ],
                     "default": "hover",
-                    "markdownDescription": "- `marker` may not function as expected when errors and warnings are mixed (see https://github.com/yy0931/go-to-next-error/pull/9), but it provides a more native feel.\n- `hover` doesn't have such problems, but may feel less native and could be laggy if `editor.smoothScrolling` is enabled."
+                    "markdownDescription": "- `marker` may not function as expected when errors and warnings are mixed (see https://github.com/yy0931/next-error/pull/9), but it provides a more native feel.\n- `hover` doesn't have such problems, but may feel less native and could be laggy if `editor.smoothScrolling` is enabled."
                 }
             }
         }
-	},
-	"capabilities": {
-		"virtualWorkspaces": true,
-		"untrustedWorkspaces": {
-			"supported": true
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./"
-	},
-	"devDependencies": {
-		"@types/node": "^17.0.33",
-		"@types/vscode": "^1.57.0",
-		"typescript": "^5.0.4"
-	}
+    },
+    "capabilities": {
+        "virtualWorkspaces": true,
+        "untrustedWorkspaces": {
+            "supported": true
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.33",
+        "@types/vscode": "^1.57.0",
+        "typescript": "^5.0.4"
+    }
 }
