@@ -62,7 +62,8 @@ export const activate = (context: vscode.ExtensionContext) => {
 
         // Find the next/previous marker in the active text editor
         for (const d of diagnostics) {
-            if (lastPosition && d.range.start.isEqual(lastPosition.position)) {
+            // Only skip if we're at the exact same position as the last position AND haven't moved the cursor
+            if (lastPosition && d.range.start.isEqual(lastPosition.position) && editor.selection.start.isEqual(lastPosition.position)) {
                 continue
             }
 
