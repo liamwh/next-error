@@ -1,6 +1,10 @@
 # Next Error
 
-Makes error navigation seamless. It's a fork of [yy0931/go-to-next-error](https://github.com/yy0931/go-to-next-error) that fixes few issues and strives for active maintenance.
+Navigate to errors only (if you want), in 1 file or across multiple.
+
+It's a fork of [yy0931/go-to-next-error](https://github.com/yy0931/go-to-next-error) that fixes few issues and strives for active maintenance.
+
+![showcase](https://github.com/user-attachments/assets/fcae22db-4811-4c2a-a2cc-2477d7e621de)
 
 ## Commands
 
