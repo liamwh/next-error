@@ -145,11 +145,9 @@ export const activate = (context: vscode.ExtensionContext) => {
         await vscode.commands.executeCommand("closeMarkersNavigation"); // Issue #3
 
         // Show the error using hover mode since editor.action.marker.next doesn't respect cursor proximity for mixed severities
-        
+
         // If the problem is not within the viewport
-        if (
-            !editor.visibleRanges.every((r) => r.contains(editor.selection))
-        ) {
+        if (!editor.visibleRanges.every((r) => r.contains(editor.selection))) {
             // Scroll to the error location in the editor
             editor.revealRange(next.range);
 
@@ -258,16 +256,24 @@ export const activate = (context: vscode.ExtensionContext) => {
 
         await vscode.commands.executeCommand("closeMarkersNavigation"); // Issue #3
 
-        // Show the error
-        if (direction === "next") {
-            await vscode.commands.executeCommand(
-                "editor.action.marker.nextInFiles"
-            );
-        } else {
-            await vscode.commands.executeCommand(
-                "editor.action.marker.prevInFiles"
-            );
+        // If the problem is not within the viewport
+        if (!editor.visibleRanges.every((r) => r.contains(editor.selection))) {
+            // Scroll to the error location in the editor
+            editor.revealRange(next.range);
+
+            // If smooth scrolling is enabled
+            if (
+                vscode.workspace
+                    .getConfiguration()
+                    .get<boolean>("editor.smoothScrolling")
+            ) {
+                // Wait for the smooth scroll to complete before displaying the hover because scrolling hides the hover.
+                // 150ms seems to work on all platforms.
+                await new Promise((resolve) => setTimeout(resolve, 150));
+            }
         }
+
+        await vscode.commands.executeCommand("editor.action.showHover");
     };
 
     context.subscriptions.push(
