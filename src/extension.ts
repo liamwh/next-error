@@ -151,16 +151,7 @@ export const activate = (context: vscode.ExtensionContext) => {
             // Scroll to the error location in the editor
             editor.revealRange(next.range);
 
-            // If smooth scrolling is enabled
-            if (
-                vscode.workspace
-                    .getConfiguration()
-                    .get<boolean>("editor.smoothScrolling")
-            ) {
-                // Wait for the smooth scroll to complete before displaying the hover because scrolling hides the hover.
-                // 150ms seems to work on all platforms.
-                await new Promise((resolve) => setTimeout(resolve, 150));
-            }
+            await waitForSmoothScroll();
         }
 
         await vscode.commands.executeCommand("editor.action.showHover");
@@ -261,16 +252,7 @@ export const activate = (context: vscode.ExtensionContext) => {
             // Scroll to the error location in the editor
             editor.revealRange(next.range);
 
-            // If smooth scrolling is enabled
-            if (
-                vscode.workspace
-                    .getConfiguration()
-                    .get<boolean>("editor.smoothScrolling")
-            ) {
-                // Wait for the smooth scroll to complete before displaying the hover because scrolling hides the hover.
-                // 150ms seems to work on all platforms.
-                await new Promise((resolve) => setTimeout(resolve, 150));
-            }
+            await waitForSmoothScroll();
         }
 
         await vscode.commands.executeCommand("editor.action.showHover");
@@ -336,3 +318,18 @@ export const activate = (context: vscode.ExtensionContext) => {
 };
 
 export const deactivate = () => {};
+
+/**
+ * Wait for the smooth scroll, if enabled, to complete before displaying the hover
+ * because scrolling hides the hover. 150ms seems to work on all platforms.
+ */
+const waitForSmoothScroll = () => {
+    if (
+        !vscode.workspace
+            .getConfiguration()
+            .get<boolean>("editor.smoothScrolling")
+    ) {
+        return Promise.resolve();
+    }
+    return new Promise((resolve) => setTimeout(resolve, 150));
+};
