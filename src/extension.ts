@@ -147,12 +147,10 @@ export const activate = (context: vscode.ExtensionContext) => {
         // Show the error using either the "editor.action.marker.next" command or the "editor.action.showHover" command.
         // Due to the limitations of the VSCode API, we default to using `showHover` instead of `marker.next` when the `filter` is `[Error, Warning]`. #8
         if (
-            (filter.length === 1 &&
-                filter[0] === vscode.DiagnosticSeverity.Error) ||
             vscode.workspace
                 .getConfiguration("next-error")
                 .get<"marker" | "hover">("multiSeverityHandlingMethod") ===
-                "marker"
+            "marker"
         ) {
             await vscode.commands.executeCommand("editor.action.marker.next");
         } else {
