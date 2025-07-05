@@ -1,16 +1,19 @@
 # Next Error
 
 Makes error navigation seamless. It's a fork of [yy0931/go-to-next-error](https://github.com/yy0931/go-to-next-error) that fixes few issues and strives for active maintenance.
-It adds the following commands to VSCode.
 
--   `Next Problem (Error)`
--   `Next Problem (Error, Warning)`
--   `Next Problem in Files (Error)`
--   `Next Problem in Files (Error, Warning)`
--   `Previous Problem (Error)`
--   `Previous Problem (Error, Warning)`
--   `Previous Problem in Files (Error)`
--   `Previous Problem in Files (Error, Warning)`
+## Commands
+
+| Command                                    | ID                               |
+| ------------------------------------------ | -------------------------------- |
+| Next Problem (Error)                       | `next-error.next.error`          |
+| Previous Problem (Error)                   | `next-error.prev.error`          |
+| Next Problem in Files (Error)              | `next-error.nextInFiles.error`   |
+| Previous Problem in Files (Error)          | `next-error.prevInFiles.error`   |
+| Next Problem (Error, Warning)              | `next-error.next.warning`        |
+| Previous Problem (Error, Warning)          | `next-error.prev.warning`        |
+| Next Problem in Files (Error, Warning)     | `next-error.nextInFiles.warning` |
+| Previous Problem in Files (Error, Warning) | `next-error.prevInFiles.warning` |
 
 These commands are similar to the VSCode's built-in `Previous/Next Problem (Error, Warning, Info)` and `Next Problem in Files (Error, Warning, Info)`, but they select only markers of the specified severity.
 
