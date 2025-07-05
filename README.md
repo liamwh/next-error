@@ -38,4 +38,4 @@ https://github.com/microsoft/vscode/issues/105795.
 ## Known problems
 
 -   If there are multiple errors in the exact same location, only the first one will be displayed.
--   Due to the limitations of the VSCode API, we use hovers for the `(Error, Warning)` commands. This behavior can be modified using the `next-error.multiSeverityHandlingMethod` configuration.
+-   Due to the limitations of the VSCode API, we use hovers to display diagnostics as this ensures proper cursor proximity navigation.

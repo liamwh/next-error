@@ -64,21 +64,7 @@
                 "command": "next-error.prevInFiles.warning",
                 "title": "Go to Previous Problem in Files (Error, Warning)"
             }
-        ],
-        "configuration": {
-            "title": "Next Error",
-            "properties": {
-                "next-error.multiSeverityHandlingMethod": {
-                    "type": "string",
-                    "enum": [
-                        "marker",
-                        "hover"
-                    ],
-                    "default": "hover",
-                    "markdownDescription": "- `marker` may not function as expected when errors and warnings are mixed (see https://github.com/yy0931/next-error/pull/9), but it provides a more native feel.\n- `hover` doesn't have such problems, but may feel less native and could be laggy if `editor.smoothScrolling` is enabled."
-                }
-            }
-        }
+        ]
     },
     "capabilities": {
         "virtualWorkspaces": true,

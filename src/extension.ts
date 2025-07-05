@@ -144,37 +144,28 @@ export const activate = (context: vscode.ExtensionContext) => {
 
         await vscode.commands.executeCommand("closeMarkersNavigation"); // Issue #3
 
-        // Show the error using either the "editor.action.marker.next" command or the "editor.action.showHover" command.
-        // Due to the limitations of the VSCode API, we default to using `showHover` instead of `marker.next` when the `filter` is `[Error, Warning]`. #8
+        // Show the error using hover mode since editor.action.marker.next doesn't respect cursor proximity for mixed severities
+        
+        // If the problem is not within the viewport
         if (
-            vscode.workspace
-                .getConfiguration("next-error")
-                .get<"marker" | "hover">("multiSeverityHandlingMethod") ===
-            "marker"
+            !editor.visibleRanges.every((r) => r.contains(editor.selection))
         ) {
-            await vscode.commands.executeCommand("editor.action.marker.next");
-        } else {
-            // If the problem is not within the viewport
+            // Scroll to the error location in the editor
+            editor.revealRange(next.range);
+
+            // If smooth scrolling is enabled
             if (
-                !editor.visibleRanges.every((r) => r.contains(editor.selection))
+                vscode.workspace
+                    .getConfiguration()
+                    .get<boolean>("editor.smoothScrolling")
             ) {
-                // Scroll to the error location in the editor
-                editor.revealRange(next.range);
-
-                // If smooth scrolling is enabled
-                if (
-                    vscode.workspace
-                        .getConfiguration()
-                        .get<boolean>("editor.smoothScrolling")
-                ) {
-                    // Wait for the smooth scroll to complete before displaying the hover because scrolling hides the hover.
-                    // 150ms seems to work on all platforms.
-                    await new Promise((resolve) => setTimeout(resolve, 150));
-                }
+                // Wait for the smooth scroll to complete before displaying the hover because scrolling hides the hover.
+                // 150ms seems to work on all platforms.
+                await new Promise((resolve) => setTimeout(resolve, 150));
             }
-
-            await vscode.commands.executeCommand("editor.action.showHover");
         }
+
+        await vscode.commands.executeCommand("editor.action.showHover");
         return true;
     };
 
