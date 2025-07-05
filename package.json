@@ -38,7 +38,7 @@
             },
             {
                 "command": "next-error.prev.error",
-                "title": "Go to Previous Problem (Error)"
+                "title": "Previous Problem (Error)"
             },
             {
                 "command": "next-error.nextInFiles.error",
@@ -46,7 +46,7 @@
             },
             {
                 "command": "next-error.prevInFiles.error",
-                "title": "Go to Previous Problem in Files (Error)"
+                "title": "Previous Problem in Files (Error)"
             },
             {
                 "command": "next-error.next.warning",
@@ -54,7 +54,7 @@
             },
             {
                 "command": "next-error.prev.warning",
-                "title": "Go to Previous Problem (Error, Warning)"
+                "title": "Previous Problem (Error, Warning)"
             },
             {
                 "command": "next-error.nextInFiles.warning",
@@ -62,7 +62,7 @@
             },
             {
                 "command": "next-error.prevInFiles.warning",
-                "title": "Go to Previous Problem in Files (Error, Warning)"
+                "title": "Previous Problem in Files (Error, Warning)"
             }
         ]
     },
