@@ -167,10 +167,10 @@ export const activate = (context: vscode.ExtensionContext) => {
     const gotoNextMarkerInFiles = async (
         filter: vscode.DiagnosticSeverity[],
         direction: "next" | "prev"
-    ) => {
+    ): Promise<boolean> => {
         // If there is an error before/after the cursor in the file, select it.
         if (await gotoMarkerInFile(filter, direction, false)) {
-            return;
+            return true;
         }
 
         // List files that contain markers of the specified severities.
@@ -192,7 +192,7 @@ export const activate = (context: vscode.ExtensionContext) => {
 
         // If there are no files that contain markers
         if (filesSorted.length === 0) {
-            return;
+            return false;
         }
 
         // If there are no files that contain markers except the active file
@@ -203,7 +203,7 @@ export const activate = (context: vscode.ExtensionContext) => {
         ) {
             // Fixes: When there is only one error location in all files, consecutive command calls will select a non-error marker.
             await gotoMarkerInFile(filter, direction, true);
-            return;
+            return true;
         }
 
         // Selects the next file.
@@ -256,6 +256,45 @@ export const activate = (context: vscode.ExtensionContext) => {
         }
 
         await vscode.commands.executeCommand("editor.action.showHover");
+        return true;
+    };
+
+    const gotoWarningThenErrorInFile = async (direction: "next" | "prev") => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            return;
+        }
+        const allDiagnostics = vscode.languages.getDiagnostics(
+            editor.document.uri
+        );
+        const warnings = allDiagnostics.filter(
+            (d) => d.severity === vscode.DiagnosticSeverity.Warning
+        );
+
+        if (warnings.length > 0) {
+            await gotoMarkerInFile([vscode.DiagnosticSeverity.Warning], direction);
+        } else {
+            await gotoMarkerInFile([vscode.DiagnosticSeverity.Error], direction);
+        }
+    };
+
+    const gotoWarningThenErrorInFiles = async (direction: "next" | "prev") => {
+        const allDiagnostics = vscode.languages.getDiagnostics();
+        const anyWarnings = allDiagnostics.some(([, diagnostics]) =>
+            diagnostics.some((d) => d.severity === vscode.DiagnosticSeverity.Warning)
+        );
+
+        if (anyWarnings) {
+            await gotoNextMarkerInFiles(
+                [vscode.DiagnosticSeverity.Warning],
+                direction
+            );
+        } else {
+            await gotoNextMarkerInFiles(
+                [vscode.DiagnosticSeverity.Error],
+                direction
+            );
+        }
     };
 
     context.subscriptions.push(
@@ -277,42 +316,18 @@ export const activate = (context: vscode.ExtensionContext) => {
 
         // Next/Previous Problem (Error, Warning)
         vscode.commands.registerCommand("next-error.next.warning", () =>
-            gotoMarkerInFile(
-                [
-                    vscode.DiagnosticSeverity.Error,
-                    vscode.DiagnosticSeverity.Warning,
-                ],
-                "next"
-            )
+            gotoWarningThenErrorInFile("next")
         ),
         vscode.commands.registerCommand("next-error.prev.warning", () =>
-            gotoMarkerInFile(
-                [
-                    vscode.DiagnosticSeverity.Error,
-                    vscode.DiagnosticSeverity.Warning,
-                ],
-                "prev"
-            )
+            gotoWarningThenErrorInFile("prev")
         ),
 
         // Next/Previous Problem in Files (Error, Warning)
         vscode.commands.registerCommand("next-error.nextInFiles.warning", () =>
-            gotoNextMarkerInFiles(
-                [
-                    vscode.DiagnosticSeverity.Error,
-                    vscode.DiagnosticSeverity.Warning,
-                ],
-                "next"
-            )
+            gotoWarningThenErrorInFiles("next")
         ),
         vscode.commands.registerCommand("next-error.prevInFiles.warning", () =>
-            gotoNextMarkerInFiles(
-                [
-                    vscode.DiagnosticSeverity.Error,
-                    vscode.DiagnosticSeverity.Warning,
-                ],
-                "prev"
-            )
+            gotoWarningThenErrorInFiles("prev")
         )
     );
 };
